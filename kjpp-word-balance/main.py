@@ -50,12 +50,18 @@ def main():
         dpg.add_input_int(
             label="Anzahl Wörter per Kondition",
             default_value=10,
+            min_clamped=1,
+            max_clamped=100,
+            width=200,
             tag="__input_word_count",
         )
 
         dpg.add_input_int(
             label="Anzahl Konditionen",
             default_value=1,
+            min_clamped=1,
+            max_clamped=100,
+            width=200,
             tag="__input_condition_count",
         )
         dpg.add_text("Parameter")
