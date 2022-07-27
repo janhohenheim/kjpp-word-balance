@@ -1,51 +1,80 @@
 #!/usr/bin/env python3
+from subprocess import call
 from typing import List
 import dearpygui.dearpygui as dpg
 from dataclasses import dataclass
 
 
+@dataclass(frozen=True)
 class Parameters:
-    param_one: bool = True
-    param_two: bool = False
+    param_one: bool
+    param_two: bool
 
 
+@dataclass(frozen=True)
 class ViewModel:
-    word_count: int = 0
-    condition_count: int = 0
+    word_count: int
+    condition_count: int
     parameters: Parameters
 
 
-def generate_callback():
-    print("Save Clicked")
+def generate_view_model() -> ViewModel:
+    return ViewModel(
+        word_count=dpg.get_value("__input_word_count"),
+        condition_count=dpg.get_value("__input_condition_count"),
+        parameters=Parameters(
+            param_one=dpg.get_value("__input_param_one"),
+            param_two=dpg.get_value("__input_param_two"),
+        ),
+    )
 
 
 def main():
     dpg.create_context()
-    view_model = ViewModel()
     with dpg.window(tag="Primary Window"):
+
+        def generate_callback():
+            view_model = generate_view_model()
+            print("Generate button clicked")
+            print(f"Word count: {view_model.word_count}")
+            print(f"Condition count: {view_model.condition_count}")
+            print(f"Parameters:")
+            print(f"  param_one: {view_model.parameters.param_one}")
+            print(f"  param_two: {view_model.parameters.param_two}")
+
         dpg.add_button(
             label="Wortliste generieren",
-            user_data=view_model,
             callback=generate_callback,
         )
-        view_model.word_count = dpg.add_input_int(
-            label="Anzahl Wörter per Kondition", default_value=10
+
+        dpg.add_input_int(
+            label="Anzahl Wörter per Kondition",
+            default_value=10,
+            tag="__input_word_count",
         )
-        view_model.condition_count = dpg.add_input_int(
-            label="Anzahl Konditionen", default_value=1
+
+        dpg.add_input_int(
+            label="Anzahl Konditionen",
+            default_value=1,
+            tag="__input_condition_count",
         )
         dpg.add_text("Parameter")
         with dpg.table(header_row=False):
             dpg.add_table_column(label="Kondition")
             dpg.add_table_column(label="Wortanzahl")
             with dpg.table_row():
-                view_model.parameters.param_one = dpg.add_checkbox(
-                    label="Kondition 1", default_value=True
+                dpg.add_checkbox(
+                    label="Kondition 1",
+                    default_value=True,
+                    tag="__input_param_one",
                 )
-                view_model.parameters.param_two = dpg.add_checkbox(
-                    label="Kondition 2", default_value=True
+
+                dpg.add_checkbox(
+                    label="Kondition 2",
+                    default_value=True,
+                    tag="__input_param_two",
                 )
-    dpg.create_viewport(title="Word Balance", width=400, height=800)
+    dpg.create_viewport(title="Word Balance", width=600, height=800)
     dpg.setup_dearpygui()
     dpg.show_viewport()
     dpg.set_primary_window("Primary Window", True)
