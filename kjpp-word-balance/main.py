@@ -43,25 +43,29 @@ def main():
             print(f"  param_two: {view_model.parameters.param_two}")
 
         dpg.add_button(
-            label="Wortliste generieren",
-            callback=generate_callback,
+            label="Wortliste generieren", callback=generate_callback, indent=50
         )
+        dpg.add_spacer(height=2)
 
         dpg.add_input_int(
             label="Anzahl Wörter per Kondition",
             default_value=10,
-            min_clamped=1,
-            max_clamped=100,
-            width=200,
+            min_value=1,
+            max_value=100,
+            width=80,
+            min_clamped=True,
+            max_clamped=True,
             tag="__input_word_count",
         )
 
         dpg.add_input_int(
             label="Anzahl Konditionen",
             default_value=1,
-            min_clamped=1,
-            max_clamped=100,
-            width=200,
+            min_value=1,
+            max_value=100,
+            width=80,
+            min_clamped=True,
+            max_clamped=True,
             tag="__input_condition_count",
         )
         dpg.add_text("Parameter")
@@ -80,7 +84,7 @@ def main():
                     default_value=True,
                     tag="__input_param_two",
                 )
-    dpg.create_viewport(title="Word Balance", width=600, height=800)
+    dpg.create_viewport(title="Word Balance", width=300, height=400)
     dpg.setup_dearpygui()
     dpg.show_viewport()
     dpg.set_primary_window("Primary Window", True)
