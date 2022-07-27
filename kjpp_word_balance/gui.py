@@ -1,20 +1,6 @@
-from subprocess import call
-from typing import List
 import dearpygui.dearpygui as dpg
-from dataclasses import dataclass
-
-
-@dataclass(frozen=True)
-class Parameters:
-    param_one: bool
-    param_two: bool
-
-
-@dataclass(frozen=True)
-class ViewModel:
-    word_count: int
-    condition_count: int
-    parameters: Parameters
+from word_generation import generate_words
+from model import ViewModel, Parameters
 
 
 def generate_view_model() -> ViewModel:
@@ -30,12 +16,7 @@ def generate_view_model() -> ViewModel:
 
 def on_generate_words_clicked():
     view_model = generate_view_model()
-    print("Generate button clicked")
-    print(f"Word count: {view_model.word_count}")
-    print(f"Condition count: {view_model.condition_count}")
-    print(f"Parameters:")
-    print(f"  param_one: {view_model.parameters.param_one}")
-    print(f"  param_two: {view_model.parameters.param_two}")
+    generate_words(view_model)
 
 
 def create_gui():
@@ -90,5 +71,3 @@ def create_gui():
     dpg.set_primary_window("Primary Window", True)
     dpg.start_dearpygui()
     dpg.destroy_context()
-
-
