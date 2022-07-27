@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from subprocess import call
 from typing import List
 import dearpygui.dearpygui as dpg
@@ -29,21 +28,22 @@ def generate_view_model() -> ViewModel:
     )
 
 
-def main():
+def on_generate_words_clicked():
+    view_model = generate_view_model()
+    print("Generate button clicked")
+    print(f"Word count: {view_model.word_count}")
+    print(f"Condition count: {view_model.condition_count}")
+    print(f"Parameters:")
+    print(f"  param_one: {view_model.parameters.param_one}")
+    print(f"  param_two: {view_model.parameters.param_two}")
+
+
+def create_gui():
     dpg.create_context()
     with dpg.window(tag="Primary Window"):
 
-        def generate_callback():
-            view_model = generate_view_model()
-            print("Generate button clicked")
-            print(f"Word count: {view_model.word_count}")
-            print(f"Condition count: {view_model.condition_count}")
-            print(f"Parameters:")
-            print(f"  param_one: {view_model.parameters.param_one}")
-            print(f"  param_two: {view_model.parameters.param_two}")
-
         dpg.add_button(
-            label="Wortliste generieren", callback=generate_callback, indent=50
+            label="Wortliste generieren", callback=on_generate_words_clicked, indent=50
         )
         dpg.add_spacer(height=2)
 
@@ -92,5 +92,3 @@ def main():
     dpg.destroy_context()
 
 
-if __name__ == "__main__":
-    main()
