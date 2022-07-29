@@ -1,6 +1,6 @@
 import dearpygui.dearpygui as dpg
-from word_generation import generate_words
-from model import ViewModel, Parameters
+from kjpp_word_balance.word_generation import generate_words
+from kjpp_word_balance.model import ViewModel, Parameters
 
 
 def generate_view_model() -> ViewModel:
@@ -59,38 +59,38 @@ def create_gui():
             dpg.add_table_column(label="Wortanzahl")
             with dpg.table_row():
                 dpg.add_checkbox(
-                    label="Graphem Nr.",
+                    label="Graphemanzahl",
                     default_value=True,
                     tag="__input_grapheme_number",
                 )
 
                 dpg.add_checkbox(
-                    label="Sillable Nr.",
+                    label="Silbenanzahl",
                     default_value=True,
                     tag="__input_sillable_number",
                 )
             with dpg.table_row():
                 dpg.add_checkbox(
-                    label="Sillable Freq.",
+                    label="Silbenfrequenz",
                     default_value=True,
                     tag="__input_sillable_frequency",
                 )
 
                 dpg.add_checkbox(
-                    label="Bigram Freq.",
+                    label="Bigramfrequenz",
                     default_value=True,
                     tag="__input_bigram_frequency",
                 )
 
             with dpg.table_row():
                 dpg.add_checkbox(
-                    label="Typ Freq.",
+                    label="Typfrequenz",
                     default_value=True,
                     tag="__input_type_frequency",
                 )
 
                 dpg.add_checkbox(
-                    label="Phonem Freq.",
+                    label="Phonemfrequenz",
                     default_value=True,
                     tag="__input_phoneme_frequency",
                 )
