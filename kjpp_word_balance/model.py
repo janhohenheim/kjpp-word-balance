@@ -3,8 +3,12 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Parameters:
-    param_one: bool
-    param_two: bool
+    grapheme_number: bool
+    sillable_number: bool
+    sillable_frequency: bool
+    bigram_frequency: bool
+    type_frequency: bool
+    phoneme_frequency: bool
 
 
 @dataclass(frozen=True)

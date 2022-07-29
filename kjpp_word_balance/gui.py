@@ -8,8 +8,12 @@ def generate_view_model() -> ViewModel:
         word_count=dpg.get_value("__input_word_count"),
         condition_count=dpg.get_value("__input_condition_count"),
         parameters=Parameters(
-            param_one=dpg.get_value("__input_param_one"),
-            param_two=dpg.get_value("__input_param_two"),
+            grapheme_number=dpg.get_value("__input_grapheme_number"),
+            sillable_number=dpg.get_value("__input_sillable_number"),
+            sillable_frequency=dpg.get_value("__input_sillable_frequency"),
+            bigram_frequency=dpg.get_value("__input_bigram_frequency"),
+            type_frequency=dpg.get_value("__input_type_frequency"),
+            phoneme_frequency=dpg.get_value("__input_phoneme_frequency"),
         ),
     )
 
@@ -49,22 +53,48 @@ def create_gui():
             max_clamped=True,
             tag="__input_condition_count",
         )
-        dpg.add_text("Parameter")
+        dpg.add_text("Balanciere Wörter nach:")
         with dpg.table(header_row=False):
             dpg.add_table_column(label="Kondition")
             dpg.add_table_column(label="Wortanzahl")
             with dpg.table_row():
                 dpg.add_checkbox(
-                    label="Kondition 1",
+                    label="Graphem Nr.",
                     default_value=True,
-                    tag="__input_param_one",
+                    tag="__input_grapheme_number",
                 )
 
                 dpg.add_checkbox(
-                    label="Kondition 2",
+                    label="Sillable Nr.",
                     default_value=True,
-                    tag="__input_param_two",
+                    tag="__input_sillable_number",
                 )
+            with dpg.table_row():
+                dpg.add_checkbox(
+                    label="Sillable Freq.",
+                    default_value=True,
+                    tag="__input_sillable_frequency",
+                )
+
+                dpg.add_checkbox(
+                    label="Bigram Freq.",
+                    default_value=True,
+                    tag="__input_bigram_frequency",
+                )
+
+            with dpg.table_row():
+                dpg.add_checkbox(
+                    label="Typ Freq.",
+                    default_value=True,
+                    tag="__input_type_frequency",
+                )
+
+                dpg.add_checkbox(
+                    label="Phonem Freq.",
+                    default_value=True,
+                    tag="__input_phoneme_frequency",
+                )
+
     dpg.create_viewport(title="Word Balance", width=300, height=400)
     dpg.setup_dearpygui()
     dpg.show_viewport()
