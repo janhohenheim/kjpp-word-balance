@@ -1,5 +1,5 @@
 import dearpygui.dearpygui as dpg
-from kjpp_word_balance.word_generation import generate_words
+from kjpp_word_balance.network import get_words
 from kjpp_word_balance.model import ViewModel, Parameters
 
 
@@ -20,7 +20,15 @@ def generate_view_model() -> ViewModel:
 
 def on_generate_words_clicked():
     view_model = generate_view_model()
-    generate_words(view_model)
+    words = get_words(view_model)
+    with dpg.window():
+        with dpg.table():
+            for i in range(view_model.condition_count):
+                dpg.add_table_column(label=f"Kategorie {i + 1}")
+            for category in words:
+                with dpg.table_row():
+                    for word in category:
+                        dpg.add_text(word)
 
 
 def create_gui():
