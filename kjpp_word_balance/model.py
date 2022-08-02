@@ -4,7 +4,6 @@ from dataclasses import dataclass
 
 @dataclass(frozen=True)
 class Parameter:
-    active: bool
     weight: float
 
 
@@ -23,3 +22,9 @@ class ViewModel:
     word_count: int
     condition_count: int
     parameters: Parameters
+
+
+@dataclass(frozen=True)
+class Fonts:
+    primary: str
+    secondary: str
