@@ -18,13 +18,22 @@ def get_words(view_model: ViewModel) -> List[List[str]]:
 
 def get_words_in_condition(parameters: Parameters, n: int) -> List[str]:
     TABLE = "typ"
+    word_column = f"{TABLE}_cit"
+    filter_columns = ",".join(
+        [
+            f"{TABLE}_{parameter.api_column}"
+            for parameter in parameters.__dict__.values()
+            if parameter.api_column != ""
+        ]
+    )
     json = requests.get(
         f"{DOMAIN}/{TABLE}/filter/",
         params={
-            f"select": f"{TABLE}_cit,{TABLE}_freq_rank123,{TABLE}_len",
+            f"select": f"{word_column},{filter_columns}",
             "top": str(n),
-            f"{TABLE}_len__ge": str(get_len()),
-            f"{TABLE}_freq_rank123__ge": str(get_rank()),
+            f"{TABLE}_{parameters.grapheme_number.api_column}__ge": str(get_len()),
+            f"{TABLE}_{parameters.type_frequency.api_column}__ge": str(get_rank()),
+            f"{word_column}__eq": "/^\\w{3,}$/",
         },
         headers={"Accept": "application/json"},
     ).json()

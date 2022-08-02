@@ -5,6 +5,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class Parameter:
     weight: float
+    api_column: str
 
 
 @dataclass(frozen=True)

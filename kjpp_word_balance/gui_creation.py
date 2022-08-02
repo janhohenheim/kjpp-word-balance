@@ -51,21 +51,27 @@ def generate_view_model() -> ViewModel:
         parameters=Parameters(
             grapheme_number=Parameter(
                 weight=dpg.get_value("__input_grapheme_number_weight"),
+                api_column="len",
             ),
             sillable_number=Parameter(
                 weight=dpg.get_value("__input_sillable_number_weight"),
+                api_column="syls_cnt",
             ),
             sillable_frequency=Parameter(
                 weight=dpg.get_value("__input_sillable_frequency_weight"),
+                api_column="syls_cumfreq_token_rank123",
             ),
             bigram_frequency=Parameter(
                 weight=dpg.get_value("__input_bigram_frequency_weight"),
+                api_column="init_bigr_rank123",
             ),
             type_frequency=Parameter(
                 weight=dpg.get_value("__input_type_frequency_weight"),
+                api_column="freq_rank123",
             ),
             phoneme_frequency=Parameter(
                 weight=dpg.get_value("__input_phoneme_frequency_weight"),
+                api_column="",
             ),
         ),
     )

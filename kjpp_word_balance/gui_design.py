@@ -8,7 +8,7 @@ def on_generate_words_clicked():
     view_model = generate_view_model()
     words = get_words(view_model)
 
-    with dpg.window(label="generated words", width=700, height=400):
+    with dpg.window(label="Wörter", width=700, height=400):
         with dpg.table():
             for i in range(view_model.condition_count):
                 dpg.add_table_column(label=f"Kategorie {i + 1}")
