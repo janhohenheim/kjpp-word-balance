@@ -5,6 +5,7 @@ from kjpp_word_balance.model import Parameters, ViewModel
 
 DOMAIN = "http://dlexdb.de/sr/dlexdb/kern"
 
+
 def get_words(view_model: ViewModel) -> List[List[str]]:
     words = [[] for _ in range(view_model.condition_count)]
     for _ in range(view_model.word_count):
@@ -20,12 +21,10 @@ def get_words_in_condition(parameters: Parameters, n: int) -> List[str]:
     json = requests.get(
         f"{DOMAIN}/{TABLE}/filter/",
         params={
-            f"select": "{TABLE}_cit,{TABLE}_freq_rank123,{TABLE}_len",
+            f"select": f"{TABLE}_cit,{TABLE}_freq_rank123,{TABLE}_len",
             "top": str(n),
             f"{TABLE}_len__ge": str(get_len()),
-            f"{TABLE}_freq_rank123__ge": str(get_rank())
-            if parameters.type_frequency
-            else "",
+            f"{TABLE}_freq_rank123__ge": str(get_rank()),
         },
         headers={"Accept": "application/json"},
     ).json()

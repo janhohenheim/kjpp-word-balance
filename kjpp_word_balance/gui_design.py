@@ -7,7 +7,8 @@ from kjpp_word_balance.gui_creation import *
 def on_generate_words_clicked():
     view_model = generate_view_model()
     words = get_words(view_model)
-    with dpg.window():
+
+    with dpg.window(label="generated words", width=700, height=400):
         with dpg.table():
             for i in range(view_model.condition_count):
                 dpg.add_table_column(label=f"Kategorie {i + 1}")
@@ -43,7 +44,9 @@ def create_gui():
 
         dpg.add_spacer(height=30)
         dpg.add_button(
-            label="Wortliste generieren", callback=on_generate_words_clicked, indent=450
+            label="Wortliste generieren",
+            callback=on_generate_words_clicked,
+            indent=450,
         )
         dpg.bind_font(fonts.primary)
 
