@@ -26,6 +26,7 @@ def create_gui():
         add_number_input("Anzahl Wörter per Kondition", "word_count", 20)
         add_number_input("Anzahl Konditionen", "condition_count", 4)
         add_text_input("Unerlaubte Buchstaben", "blacklisted_symbols", "ä ö ü")
+        add_text_input("Erlaubte Typfrequenz", "type_frequency_range", "100-2000")
         dpg.add_spacer(height=5)
         dpg.add_text("Parametergewichtung (0 = ausgeschalten)")
         with dpg.table(header_row=False):

@@ -23,6 +23,7 @@ class Parameters:
 class ViewModel:
     word_count: int
     condition_count: int
+    type_frequency_range: List[int]
     parameters: Parameters
     blacklisted_symbols: List[str]
 

@@ -58,6 +58,9 @@ def generate_view_model() -> ViewModel:
         word_count=dpg.get_value("__input_word_count"),
         condition_count=dpg.get_value("__input_condition_count"),
         blacklisted_symbols=dpg.get_value("__input_blacklisted_symbols").split(" "),
+        type_frequency_range=[
+            int(val) for val in dpg.get_value("__input_type_frequency_range").split("-")
+        ],
         parameters=Parameters(
             grapheme_number=Parameter(
                 weight=dpg.get_value("__input_grapheme_number_weight"),

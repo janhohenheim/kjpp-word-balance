@@ -44,6 +44,9 @@ def fetch_at_least_n_random_words(
     blacklisted_symbols = "".join(view_model.blacklisted_symbols)
     blacklisted_symbols = blacklisted_symbols.lower() + blacklisted_symbols.upper()
     default_blacklist = "0-9\.,\-\_'?!"
+    range = random.randint(
+        view_model.type_frequency_range[0], view_model.type_frequency_range[1] - n
+    )
     json = requests.get(
         f"{DOMAIN}/{TABLE}/filter/",
         params={
@@ -51,14 +54,10 @@ def fetch_at_least_n_random_words(
             "top": str(n),
             f"{columns.grapheme_number}__ge": 3,
             f"{columns.grapheme_number}__le": 12,
-            f"{columns.type_frequency}__ge": str(get_random_rank()),
+            f"{columns.type_frequency}__ge": str(range),
             f"{columns.word}__eq": f"/^[^{default_blacklist}{blacklisted_symbols}]{{3,}}$/",
         },
         headers={"Accept": "application/json"},
     ).json()
     words = json["data"]
     return {word[0]: word[1:] for word in words}
-
-
-def get_random_rank():
-    return random.choice(range(100, 5_000))
