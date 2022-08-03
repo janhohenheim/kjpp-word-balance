@@ -35,26 +35,9 @@ class Columns(GenericColumns):
         return super().__dict__.values()
 
 
-def get_words(view_model: ViewModel) -> List[List[str]]:
-    return [
-        get_similar_words(view_model.condition_count, view_model.parameters)
-        for _ in range(view_model.word_count)
-    ]
 
 
-def get_similar_words(n: int, parameters: Parameters) -> List[str]:
-    words_with_ranks = get_random_words(n * 20)
-    sorted_words_with_ranks = sorted(
-        words_with_ranks, key=lambda word: get_weighted_score(word, parameters)
-    )
-    index = random.randint(0, len(sorted_words_with_ranks) - 1 - n)
-    return [
-        word[0].replace("ß", "ss").lower()
-        for word in sorted_words_with_ranks[index : index + n]
-    ]
-
-
-def get_random_words(n: int) -> List[List[Union[int, str]]]:
+def get_random_words(n: int) -> Dict[str, List[int]]:
     columns = Columns()
     column_selector = ",".join([column for column in columns.iter()])
     json = requests.get(
@@ -69,19 +52,10 @@ def get_random_words(n: int) -> List[List[Union[int, str]]]:
         },
         headers={"Accept": "application/json"},
     ).json()
-    return json["data"]
-
-
-def get_weighted_score(word: List[Union[(int, str)]], parameters: Parameters) -> int:
-    scores = [int(score) for score in word[1:]]
-    return sum(
-        [
-            score * int(parameter.weight)
-            for score, parameter in zip(scores, parameters.__dict__.values())
-            if parameter.api_column != ""
-        ]
-    )
+    words = json["data"]
+    return {word[0]: word[1:] for word in words}
 
 
 def get_random_rank():
     return random.choice(range(100, 5_000))
+

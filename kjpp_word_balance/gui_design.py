@@ -1,12 +1,12 @@
 import dearpygui.dearpygui as dpg
-from kjpp_word_balance.network import get_words
+from kjpp_word_balance.word_generation import generate_words
 from kjpp_word_balance.model import *
 from kjpp_word_balance.gui_creation import *
 
 
 def on_generate_words_clicked():
     view_model = generate_view_model()
-    words = get_words(view_model)
+    words = generate_words(view_model)
 
     with dpg.window(label="Wörter", width=700, height=400):
         with dpg.table():
