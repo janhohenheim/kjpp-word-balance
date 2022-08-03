@@ -11,17 +11,17 @@ def get_fonts_directory():
 
 def load_fonts() -> Fonts:
     fonts_path = get_fonts_directory()
-    font_path = join(fonts_path, "Roboto", "Roboto-Regular.ttf")
+    font_path = join(fonts_path, "Roboto")
     with dpg.font_registry():
-        default_font = dpg.add_font(font_path, 24)
-        second_font = dpg.add_font(font_path, 10)
-    return Fonts(default_font, second_font)
+        default_font = dpg.add_font(join(font_path, "Roboto-Regular.ttf"), 24)
+        bold = dpg.add_font(join(font_path, "Roboto-Bold.ttf"), 32)
+    return Fonts(default_font, bold)
 
 
-def add_number_input(label: str, tag: str):
+def add_number_input(label: str, tag: str, default_value: int):
     dpg.add_input_int(
         label=label,
-        default_value=10,
+        default_value=default_value,
         min_value=1,
         max_value=100,
         width=120,

@@ -28,4 +28,4 @@ class ViewModel:
 @dataclass(frozen=True)
 class Fonts:
     primary: str
-    secondary: str
+    bold: str

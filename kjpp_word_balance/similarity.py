@@ -2,13 +2,14 @@ from typing import Dict, List
 import random
 
 
-def take_most_similar_words(words: Dict[str, List[int]], n: int, weights: List[float]) -> List[str]:
+def take_most_similar_words(
+    words: Dict[str, List[int]], n: int, weights: List[float]
+) -> List[str]:
     words = normalize_scores(words)
     words = convert_scores_to_mean_squared_error(words)
     words = get_weighted_sum_of_squares(words, weights)
     words = sorted(words, key=lambda word: words[word])
-    index = random.randint(0, len(words) - 1 - n)
-    return [word.replace("ß", "ss").lower() for word in words[index : index + n]]
+    return [word.replace("ß", "ss").lower() for word in words[0:n]]
 
 
 def get_weighted_sum_of_squares(

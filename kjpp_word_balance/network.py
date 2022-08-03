@@ -35,11 +35,10 @@ class Columns(GenericColumns):
         return super().__dict__.values()
 
 
-
-
-def get_random_words(n: int) -> Dict[str, List[int]]:
+def fetch_at_least_n_random_words(n: int) -> Dict[str, List[int]]:
     columns = Columns()
     column_selector = ",".join([column for column in columns.iter()])
+    n = n * random.randint(2, 10)
     json = requests.get(
         f"{DOMAIN}/{TABLE}/filter/",
         params={
@@ -58,4 +57,3 @@ def get_random_words(n: int) -> Dict[str, List[int]]:
 
 def get_random_rank():
     return random.choice(range(100, 5_000))
-
