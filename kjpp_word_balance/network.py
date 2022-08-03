@@ -36,17 +36,15 @@ class Columns(GenericColumns):
 
 
 def fetch_at_least_n_random_words(
-    n: int, view_model: ViewModel
+    n: int, view_model: ViewModel, blacklisted_words: List[str]
 ) -> Dict[str, List[int]]:
     columns = Columns()
     column_selector = ",".join([column for column in columns.iter()])
+
     n = n * random.randint(2, 10)
-    blacklisted_symbols = "".join(view_model.blacklisted_symbols)
-    blacklisted_symbols = blacklisted_symbols.lower() + blacklisted_symbols.upper()
-    default_blacklist = "0-9\.,\-\_'?!"
-    range = random.randint(
-        view_model.type_frequency_range[0], view_model.type_frequency_range[1] - n
-    )
+    range = get_range(view_model, n)
+    word_regex = generate_word_regex(view_model.blacklisted_symbols, blacklisted_words)
+
     json = requests.get(
         f"{DOMAIN}/{TABLE}/filter/",
         params={
@@ -54,10 +52,33 @@ def fetch_at_least_n_random_words(
             "top": str(n),
             f"{columns.grapheme_number}__ge": 3,
             f"{columns.grapheme_number}__le": 12,
-            f"{columns.type_frequency}__ge": str(range),
-            f"{columns.word}__eq": f"/^[^{default_blacklist}{blacklisted_symbols}]{{3,}}$/",
+            f"{columns.type_frequency}__ge": range[0],
+            f"{columns.type_frequency}__le": range[1],
+            f"{columns.word}__eq": word_regex,
         },
         headers={"Accept": "application/json"},
     ).json()
     words = json["data"]
     return {word[0]: word[1:] for word in words}
+
+
+def generate_word_regex(
+    blacklisted_symbols: List[str], blacklisted_words: List[str]
+) -> str:
+    capitalized_blacklisted_words = [word.capitalize() for word in blacklisted_words]
+
+    blacklisted_symbols = "".join(blacklisted_symbols)
+    blacklisted_symbols = blacklisted_symbols.lower() + blacklisted_symbols.upper()
+    blacklisted_words = "".join(
+        f"(?!{word})" for word in blacklisted_words + capitalized_blacklisted_words
+    )
+
+    default_blacklist = "0-9\.,\-\_'?!"
+    return f"/^{blacklisted_words}[^{default_blacklist}{blacklisted_symbols}]{{3,}}$/"
+
+
+def get_range(view_model: ViewModel, n: int) -> int:
+    max = view_model.type_frequency_range[1]
+    min = view_model.type_frequency_range[0]
+    lower = random.randint(min, max - n)
+    return lower, max
