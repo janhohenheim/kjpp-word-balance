@@ -35,10 +35,15 @@ class Columns(GenericColumns):
         return super().__dict__.values()
 
 
-def fetch_at_least_n_random_words(n: int) -> Dict[str, List[int]]:
+def fetch_at_least_n_random_words(
+    n: int, view_model: ViewModel
+) -> Dict[str, List[int]]:
     columns = Columns()
     column_selector = ",".join([column for column in columns.iter()])
     n = n * random.randint(2, 10)
+    blacklisted_symbols = "".join(view_model.blacklisted_symbols)
+    blacklisted_symbols = blacklisted_symbols.lower() + blacklisted_symbols.upper()
+    default_blacklist = "0-9\.,\-\_'?!"
     json = requests.get(
         f"{DOMAIN}/{TABLE}/filter/",
         params={
@@ -47,7 +52,7 @@ def fetch_at_least_n_random_words(n: int) -> Dict[str, List[int]]:
             f"{columns.grapheme_number}__ge": 3,
             f"{columns.grapheme_number}__le": 12,
             f"{columns.type_frequency}__ge": str(get_random_rank()),
-            f"{columns.word}__eq": "/^\\w{3,}$/",
+            f"{columns.word}__eq": f"/^[^{default_blacklist}{blacklisted_symbols}]{{3,}}$/",
         },
         headers={"Accept": "application/json"},
     ).json()

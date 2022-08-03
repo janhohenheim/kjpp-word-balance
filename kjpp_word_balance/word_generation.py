@@ -9,9 +9,8 @@ def generate_words(view_model: ViewModel) -> List[List[str]]:
     weights = [
         parameter.weight for parameter in view_model.parameters.__dict__.values()
     ]
-    factor = random.randint(1, 10)
     list_of_random_words = [
-        fetch_at_least_n_random_words(view_model.condition_count)
+        fetch_at_least_n_random_words(view_model.condition_count, view_model)
         for _ in range(view_model.word_count)
     ]
     return [

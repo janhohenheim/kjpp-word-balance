@@ -1,3 +1,4 @@
+from typing import List
 import dearpygui.dearpygui as dpg
 from dataclasses import dataclass
 
@@ -23,6 +24,7 @@ class ViewModel:
     word_count: int
     condition_count: int
     parameters: Parameters
+    blacklisted_symbols: List[str]
 
 
 @dataclass(frozen=True)

@@ -31,6 +31,15 @@ def add_number_input(label: str, tag: str, default_value: int):
     )
 
 
+def add_text_input(label: str, tag: str, default_value: str):
+    dpg.add_input_text(
+        label=label,
+        default_value=default_value,
+        width=200,
+        tag=f"__input_{tag}",
+    )
+
+
 def add_parameter_input(label: str, tag: str):
     dpg.add_input_int(
         label=label,
@@ -48,6 +57,7 @@ def generate_view_model() -> ViewModel:
     return ViewModel(
         word_count=dpg.get_value("__input_word_count"),
         condition_count=dpg.get_value("__input_condition_count"),
+        blacklisted_symbols=dpg.get_value("__input_blacklisted_symbols").split(" "),
         parameters=Parameters(
             grapheme_number=Parameter(
                 weight=dpg.get_value("__input_grapheme_number_weight"),
