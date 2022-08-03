@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from multiprocessing.sharedctypes import Value
 from typing import Dict, List, Union
 import requests
 import random
@@ -7,6 +8,8 @@ from kjpp_word_balance.model import Parameters, ViewModel
 DOMAIN = "http://dlexdb.de/sr/dlexdb/kern"
 TABLE = "typ"
 
+class RangeError(Exception):
+    pass
 
 @dataclass(frozen=True)
 class GenericColumns:
@@ -80,5 +83,8 @@ def generate_word_regex(
 def get_range(view_model: ViewModel, n: int) -> int:
     max = view_model.type_frequency_range[1]
     min = view_model.type_frequency_range[0]
-    lower = random.randint(min, max - n)
-    return lower, max
+    try:
+        lower = random.randint(min, max - n)
+        return lower, max
+    except ValueError:
+        raise RangeError

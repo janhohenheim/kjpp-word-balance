@@ -5,6 +5,10 @@ from kjpp_word_balance.similarity import take_most_similar_words
 import random
 
 
+class RestrictionError(Exception):
+    pass
+
+
 def generate_words(view_model: ViewModel) -> List[List[str]]:
     weights = [
         parameter.weight for parameter in view_model.parameters.__dict__.values()
@@ -15,6 +19,9 @@ def generate_words(view_model: ViewModel) -> List[List[str]]:
         random_words = fetch_at_least_n_random_words(
             view_model.condition_count, view_model, blacklisted_words
         )
+        if len(random_words) < view_model.condition_count:
+            raise RestrictionError()
+
         similar_words = take_most_similar_words(
             random_words, view_model.condition_count, weights
         )
