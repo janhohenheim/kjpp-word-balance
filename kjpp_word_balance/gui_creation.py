@@ -90,12 +90,10 @@ def generate_view_model() -> ViewModel:
         ),
     )
 
+
 def add_file_dialog_button(label: str, words: List[List[str]], callback: Callable):
     file_dialog = _create_file_dialog(callback, words)
-    dpg.add_button(
-        label="Speichern", callback=lambda: dpg.show_item(file_dialog)
-    )
-
+    dpg.add_button(label="Speichern", callback=lambda: dpg.show_item(file_dialog))
 
 
 def _create_file_dialog(callback: Callable, words: List[List[str]]) -> str:
@@ -108,6 +106,6 @@ def _create_file_dialog(callback: Callable, words: List[List[str]]) -> str:
         width=700,
         height=500,
     ) as id:
-        dpg.add_file_extension(".csv", custom_text="comma separated values")
-        dpg.add_file_extension(".*", custom_text="Any")
+        dpg.add_file_extension(".csv", color=(102, 242, 249, 255))
+        dpg.add_file_extension(".*")
         return id
