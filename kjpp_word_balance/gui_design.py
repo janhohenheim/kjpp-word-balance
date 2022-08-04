@@ -1,4 +1,6 @@
+from typing import Dict
 import dearpygui.dearpygui as dpg
+from kjpp_word_balance.io import on_save_file
 from kjpp_word_balance.network import RangeError
 from kjpp_word_balance.word_generation import RestrictionError, generate_words
 from kjpp_word_balance.model import *
@@ -6,11 +8,16 @@ from kjpp_word_balance.gui_creation import *
 
 
 def on_generate_words_clicked():
-    with dpg.window(label="Wörter", width=700, height=400):
+    with dpg.window(label="Wörter", width=700, height=500):
 
         view_model = generate_view_model()
         try:
             words = generate_words(view_model)
+
+            dpg.add_text("Wörter wurden erfolgreich generiert!")
+            add_file_dialog_button("Speichern", words, on_save_file)
+            dpg.add_spacer(height=5)
+
             with dpg.table(header_row=True, row_background=True):
                 for i in range(view_model.condition_count):
                     dpg.add_table_column(label=f"Kategorie {i + 1}")
@@ -61,8 +68,7 @@ def create_gui():
             indent=450,
         )
         dpg.bind_font(fonts.primary)
-
-    dpg.create_viewport(title="Word Balance", width=700, height=400)
+    dpg.create_viewport(title="Word Balance", width=900, height=700)
     dpg.setup_dearpygui()
     dpg.show_viewport()
     dpg.set_primary_window("Primary Window", True)
