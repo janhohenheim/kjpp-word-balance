@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-from multiprocessing.sharedctypes import Value
-from typing import Dict, List, Union
+from typing import Dict, List
 import requests
 import random
-from kjpp_word_balance.model import Parameters, ViewModel
+from kjpp_word_balance.model import ViewModel
 
 DOMAIN = "http://dlexdb.de/sr/dlexdb/kern"
 TABLE = "typ"

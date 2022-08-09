@@ -2,7 +2,6 @@ from typing import List
 from kjpp_word_balance.model import ViewModel
 from kjpp_word_balance.network import fetch_at_least_n_random_words
 from kjpp_word_balance.similarity import take_most_similar_words
-import random
 
 
 class RestrictionError(Exception):

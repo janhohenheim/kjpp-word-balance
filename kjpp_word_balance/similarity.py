@@ -1,5 +1,4 @@
 from typing import Dict, List
-import random
 
 
 def take_most_similar_words(
